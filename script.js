@@ -213,4 +213,32 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         showAlert('Fréquence cardiaque élevée détectée. Prenez du repos.');
     }, 4000);
+
+    // --- Mobile menu toggle ---
+    const menuToggle = document.querySelector('.menu-toggle');
+    const headerNav = document.querySelector('.header-nav');
+    if (menuToggle && headerNav) {
+        menuToggle.addEventListener('click', () => {
+            const open = headerNav.classList.toggle('open');
+            menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            headerNav.setAttribute('aria-hidden', open ? 'false' : 'true');
+        });
+
+        headerNav.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                headerNav.classList.remove('open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                headerNav.setAttribute('aria-hidden', 'true');
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && headerNav.classList.contains('open')) {
+                headerNav.classList.remove('open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                headerNav.setAttribute('aria-hidden', 'false');
+            }
+        });
+    }
 });
+
